@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoaderNoKeyFile</class>
+ <widget class="QMainWindow" name="LoaderNoKeyFile">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>424</width>
+    <height>182</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>LoaderNoKeyFile</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>No 'key file (key.txt)' was found! Try entering the key manually?</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="key_data">
+      <property name="toolTip">
+       <string>key data to be entered</string>
+      </property>
+      <property name="statusTip">
+       <string>key data to be entered</string>
+      </property>
+      <property name="whatsThis">
+       <string>key data to be entered</string>
+      </property>
+      <property name="accessibleName">
+       <string>key data to be entered</string>
+      </property>
+      <property name="accessibleDescription">
+       <string>key data to be entered</string>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string>Key Data</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="submit_key">
+      <property name="toolTip">
+       <string>submit key</string>
+      </property>
+      <property name="statusTip">
+       <string>submit key</string>
+      </property>
+      <property name="whatsThis">
+       <string>submit key</string>
+      </property>
+      <property name="accessibleName">
+       <string>submit key</string>
+      </property>
+      <property name="accessibleDescription">
+       <string>submit key</string>
+      </property>
+      <property name="text">
+       <string>Submit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QPushButton" name="quit">
+      <property name="toolTip">
+       <string>quit as you don't have a key</string>
+      </property>
+      <property name="statusTip">
+       <string>quit as you don't have a key</string>
+      </property>
+      <property name="whatsThis">
+       <string>quit as you don't have a key</string>
+      </property>
+      <property name="accessibleName">
+       <string>quit as you don't have a key</string>
+      </property>
+      <property name="accessibleDescription">
+       <string>quit as you don't have a key</string>
+      </property>
+      <property name="text">
+       <string>Quit! I don't have a key.</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>424</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
