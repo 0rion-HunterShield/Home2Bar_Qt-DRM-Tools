@@ -214,8 +214,8 @@ class Window(QMainWindow,QWidget):
         try:
             with open(self.svg_options_file,'r') as options:
                 self.svg_options=json.load(options)
-            except:
-                pass
+        except:
+            pass
     def santize(self,stringy,codes2='NOCODE2'):
         temp=copy(stringy)
         if codes2 == '':
