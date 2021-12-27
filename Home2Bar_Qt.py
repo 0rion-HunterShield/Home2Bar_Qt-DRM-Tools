@@ -211,8 +211,11 @@ class Window(QMainWindow,QWidget):
             x.write(html.format(title=self.window.order_sheet_title.text(),style=style,rows='\n'.join(rows)))
         self.window.file_saved_path.setText('file://'+str(on.absolute()))
     def update_svg_options(self):
-        with open(self.svg_options_file,'r') as options:
-            self.svg_options=json.load(options)
+        try:
+            with open(self.svg_options_file,'r') as options:
+                self.svg_options=json.load(options)
+            except:
+                pass
     def santize(self,stringy,codes2='NOCODE2'):
         temp=copy(stringy)
         if codes2 == '':
