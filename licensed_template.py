@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import base64
 from io import StringIO
 from cryptography.fernet import Fernet
