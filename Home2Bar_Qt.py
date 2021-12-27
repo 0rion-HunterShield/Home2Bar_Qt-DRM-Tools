@@ -342,20 +342,13 @@ class Window(QMainWindow,QWidget):
                     writer.writerow(x)
 
     def nocode1(self,btn):
-        if btn == True:
-            self.window.code.setText('NOCODE1')
-        else:
-            self.window.code.setText('')
+        self.window.code.setText('NOCODE1')
+
     def nocode2(self,btn):
-        if btn == True:
-            self.window.code2.setText('NOCODE2')
-        else:
-            self.window.code2.setText('')
+        self.window.code2.setText('NOCODE2')
+
     def nocode3(self,btn):
-        if btn == True:
-            self.window.item_name.setText('NOCODE3')
-        else:
-            self.window.item_name.setText('')
+        self.window.item_name.setText('NOCODE3')
 
     def generate_bar(self):
         self.update_svg_options()
