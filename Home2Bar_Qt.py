@@ -27,6 +27,7 @@ from io import BytesIO,StringIO
 #import pyocr.builders
 import pytesseract
 #local import
+from qrtools import qrtools
 
 class Signals(QObject):
     error=pyqtSignal(tuple)
@@ -321,7 +322,7 @@ class Window(QMainWindow,QWidget):
 
         except Exception as e:
             print(e)
-            raise e
+            #raise e
     def browse_server_export(self):
         name=QFileDialog.getSaveFileName(filter="CSV (*.csv);;All Files(*)")[0]
         if name not in ['','.']:
@@ -385,30 +386,43 @@ class Window(QMainWindow,QWidget):
             self.window.code2.setText('')
             self.window.item_name.setText('')
     def export_to_csv(self):
-        entries=[]
-        for i in Path(self.window.save_location.text()).iterdir():
-            if i.suffix == ".svg":
-                self.window.statusBar().showMessage('Exporting [READ] {}'.format(i))
-                out = BytesIO()
-                cairosvg.svg2png(url=str(i), write_to=out)
-                image = Image.open(out)
+        try:
+            entries=[]
+            for i in Path(self.window.save_location.text()).iterdir():
+                if i.suffix == ".svg":
+                    self.window.statusBar().showMessage('Exporting [READ] {}'.format(i))
+                    out = BytesIO()
+                    cairosvg.svg2png(url=str(i), write_to=out)
+                    image = Image.open(out)
+                    if self.window.encoding.currentText() == "Code128":
+                        result=decode(image)[0]
+                        entries.append([i.stem.split('_')[0],result.data.decode('utf-8'),str(i.stem.split('_')[-1])])
+                    elif self.window.encoding.currentText() == "Qr":
+                        white=Image.new("RGBA",image.size,"WHITE")
+                        white.paste(image,(0,0),image)
+                        white.convert('RGB')
+                        result=zbar.decode(white)[0]
+                        print(result)
+                        #exit()
+                        entries.append([i.stem.split('_')[0],result.data.decode('utf-8'),str(i.stem.split('_')[-1])])
 
-                result=decode(image)[0]
-                entries.append([i.stem.split('_')[0],result.data.decode('utf-8'),str(i.stem.split('_')[-1])])
-        with open(Path(self.window.export_file.text()),'w') as out:
-            writer=csv.writer(out)
-            for i in entries:
-                for num,col in enumerate(i):
-                    for char in col:
-                        if bytes(char,'utf-8') not in bytes(string.ascii_letters+string.digits,'utf-8'):
-                            x=bytes(col,'utf-8').replace(bytes(char,'utf-8'),b' ')
-                            i[num]=x.decode('utf-8')
-                            #col[num]=str(x)
-                            #col[num]=x.decode('utf-8')
-                            #print(bytes(char,'utf-8'))
-                            print(col)
-                writer.writerow(i)
-                self.window.statusBar().showMessage('Exporting [WRITING] {}'.format(i))
+            with open(Path(self.window.export_file.text()),'w') as out:
+                writer=csv.writer(out)
+                for i in entries:
+                    for num,col in enumerate(i):
+                        for char in col:
+                            if bytes(char,'utf-8') not in bytes(string.ascii_letters+string.digits,'utf-8'):
+                                x=bytes(col,'utf-8').replace(bytes(char,'utf-8'),b' ')
+                                i[num]=x.decode('utf-8')
+                                #col[num]=str(x)
+                                #col[num]=x.decode('utf-8')
+                                #print(bytes(char,'utf-8'))
+                                print(col)
+                    writer.writerow(i)
+                    self.window.statusBar().showMessage('Exporting [WRITING] {}'.format(i))
+        except Exception as e:
+            print(e)
+            self.window.statusBar().showMessage(str(e))
     def get_export(self):
         name=QFileDialog.getSaveFileName(filter="CSV (*.csv);;All Files(*)")[0]
         if name not in ['','.']:
