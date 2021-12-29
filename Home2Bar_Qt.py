@@ -518,25 +518,29 @@ class Window(QMainWindow,QWidget):
 
     def copy_content(self):
         try:
+            
             text=self.window.image_content.toPlainText()
-            t=text.split('\n')
+            #t=text.split('\n'i)
+            t=csv.reader(text.splitlines(),delimiter=',')
             col1=[]
             col2=[]
             col3=[]
 
             for i in t:
-                tt=i.split(' ')
-                if len(tt) >= 3:
-                    print(tt[2:])
-                    col1.append(tt[0])
-                    col2.append(tt[1])
-                    col3.append(' '.join(tt[2:]))
+                #tt=i.split(' 'i
+                print(i)
+                if len(i) >= 3:
+                    print(i[2:])
+                    col1.append(i[0])
+                    col2.append(i[1])
+                    col3.append(' '.join(i[2:]))
             self.window.column1.setPlainText('\n'.join(col1))
             self.window.column2.setPlainText('\n'.join(col2))
             self.window.column3.setPlainText('\n'.join(col3))
             self.window.image_content.setPlainText('')
         except Exception as e:
             print(e)
+            exit()
             self.window.statusBar().showMessage('Nothing to Copy')
 
     def save_image_content(self):
