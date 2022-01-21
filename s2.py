@@ -344,15 +344,23 @@ class Window(QMainWindow,QWidget):
             print(e)
             self.window.statusBar().showMessage(str(e))
     def ocr_process(self,button):
-        text=self.process_image(self.window.ocr_location.text())
-        self.window.ocr_editor.setPlainText(text)
-        self.ocr_img=Image.open(self.window.ocr_location.text())
-        self.ocr_qim=ImageQt(self.ocr_img)
-        self.ocr_pix=QPixmap.fromImage(self.ocr_qim)
-        self.ocr_scene=QGraphicsScene()
-        self.ocr_scene.addPixmap(self.ocr_pix)
-        view=self.window.ocr_imageView
-        view.setScene(self.ocr_scene)
+        try:
+            text=self.process_image(self.window.ocr_location.text())
+            self.window.ocr_editor.setPlainText(text)
+
+            self.ocr_img=Image.open(self.window.ocr_location.text())
+            self.ocr_qim=ImageQt(self.ocr_img)
+            self.ocr_pix.setPixmap(QPixmap.fromImage(self.ocr_qim))
+            #self.ocr_scene=QGraphicsScene()
+            #self.ocr_scene.addPixmap(self.ocr_pix)
+            #view=self.window.ocr_imageView
+            #view.setScene(self.ocr_scene)
+        except Exception as e:
+            print(e)
+            self.window.statusBar().showMessage(str(e))
+            self.ocr_img=Image.new(size=(580,580),mode='RGBA',color=(255,0,0))
+            self.ocr_qim=ImageQt(self.ocr_img)
+            self.ocr_pix.setPixmap(QPixmap.fromImage(self.ocr_qim))
 
     #ocr tab end
     def test_file_content(self):
@@ -1387,12 +1395,23 @@ class Window(QMainWindow,QWidget):
 
         self.file_corner_qim=ImageQt(self.file_corner_rendered)
         self.file_corner_pix=QGraphicsPixmapItem()
+
         self.file_front_qim=ImageQt(self.file_front_rendered)
         self.file_front_pix=QGraphicsPixmapItem()
         self.file_rear_qim=ImageQt(self.file_rear_rendered)
         self.file_rear_pix=QGraphicsPixmapItem()
 
 
+        self.ocr_scene=QGraphicsScene()
+        self.ocr_img=Image.new(size=(580,580),mode="RGBA",color=(255,0,0))
+
+        self.ocr_qim=ImageQt(self.ocr_img)
+        self.ocr_pix=QGraphicsPixmapItem()
+
+        self.ocr_pix.setPixmap(QPixmap.fromImage(self.ocr_qim))
+        self.window.ocr_imageView.setScene(self.ocr_scene)
+        self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
+        self.ocr_scene.addItem(self.ocr_pix)
 
         self.window_2.corner_view.setScene(self.file_corner_scene)
         self.window_2.corner_view.fitInView(0,0,380,380,Qt.AspectRatioMode.KeepAspectRatio)
