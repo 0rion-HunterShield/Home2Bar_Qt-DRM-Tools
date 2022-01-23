@@ -30,6 +30,7 @@ from PIL.ImageQt import ImageQt
 import pytesseract,random
 #local import
 from qrtools import qrtools
+from ast import literal_eval as evaluate
 if len(sys.argv) > 1:
     from client_model import HolzCraftsFrameEnum
     from modsvg import Modify
@@ -61,7 +62,7 @@ else:
 		price=enum.auto()
 		frame_shape=[('square', 'square'), ('hexagonal', 'hexagonal'), ('octoganal', 'octoganal'), ('Other', 'Other')]
 		other_frame_size_diameter_unit=[('inch', 'inch'), ('foot', 'foot'), ('yard', 'yard'), ('centimeter', 'centimeter'), ('meter', 'meter'), ('millimeter', 'millimeter'), ('Other', 'Other')]
-		item_weight_unit=[('lb', 'lb'), ('oz', 'oz'), ('gram', 'gram'), ('kg', 'kg')]
+		item_weight_unit=[('lb', 'lb'), ('oz', 'oz'), ('gram', 'gram'), ('kg', 'kg'), ('Other', 'Other')]
 		item_weight=enum.auto()
 		stain=enum.auto()
 		comments=enum.auto()
@@ -159,6 +160,7 @@ class PollingWorker(QRunnable):
         self.signals.update.emit('')
         self.signals.result.emit('')
 class Window(QMainWindow,QWidget):
+    version="HCA5"
     #file is for test file mode
     def test_content(self,file=None):
         codeIO=StringIO()
@@ -426,16 +428,31 @@ class Window(QMainWindow,QWidget):
                         self.window.import_viewer.setPlainText(str(self.import_data))
                 elif mode in ["Code128",'QR']:
                     img=Image.open(filename)
-                    self.import_data=json.loads(zbar.decode(img)[0].data.decode('utf-8'))
+                    self.import_data=evaluate(zbar.decode(img)[0].data.decode('utf-8'))
                     self.window.import_viewer.setPlainText(str(self.import_data))
                 else:
                     raise Exception("Invalid Reader")
         try:
             run_reader(self.window.import_location.text(),mode)
             self.validate_product(self.import_data)
+            #self.make_product()
         except Exception as e:
             print(e)
             self.window.statusBar().showMessage(str(e))
+    def make_product(self):
+        product=dict()
+        for i in HolzCraftsFrameEnum.__fields__(HolzCraftsFrameEnum):
+            if i not in ['front','corner','front','rear','engraving_zip']:
+                product[i]=self.import_data.get(i)
+        address=self.window.server.text()+'/holzcraftsframes/new_frame/'
+        token=self.window.token.text()
+        response=requests.post(address,data=product,headers={'Authorization':'Token {}'.format(token)})
+        if response.status_code == 200:
+            self.window.statusBar().showMessage("Save Successfull!")
+        else:
+            self.window.statusBar().showMessage(str(response))
+        print(response)
+
     def validate_product(self,product_dict):
         result=True
         for i in self.import_data.keys():
@@ -443,7 +460,13 @@ class Window(QMainWindow,QWidget):
                 HolzCraftsFrameEnum.__dict__[i]
             except Exception as e:
                 raise Exception("Invalid Product")
-
+        for i in HolzCraftsFrameEnum.__fields__(HolzCraftsFrameEnum):
+            try:
+                print(i,'key')
+                print(product_dict[i],'data')
+            except Exception as e:
+                print(str(e))
+                raise Exception("Invalid Product")
         if result == True:
             return
         else:
@@ -486,7 +509,9 @@ class Window(QMainWindow,QWidget):
         print('About run()')
         msgBox = QMessageBox()
         #msgBox.setIcon(QMessageBox.Information)
-        msgBox.setText("""HolcraftsAdminQt6 {version} for managing Holzcrafts.""".format(version=Path('version.txt').open('r').readline()))
+        msgBox.setText("""
+        HolcraftsAdminQt6 {version} for managing Holzcrafts.
+        """.format(version=self.version))
         msgBox.setWindowTitle("Home2Bar About")
         returnValue = msgBox.exec()
     def engraving_zip(self):
@@ -621,6 +646,7 @@ class Window(QMainWindow,QWidget):
         self.window.ocr_open.clicked.connect(self.ocr_process)
         self.window.import_browse.clicked.connect(self.import_location_browse)
         self.window.import_readfile.clicked.connect(self.import_readfile)
+        self.window.import_sendToServer.clicked.connect(self.make_product)
 
     def engraving_zip_download(self):
         try:
