@@ -440,6 +440,10 @@ class Window(QMainWindow,QWidget):
             print(e)
             self.window.statusBar().showMessage(str(e))
     def make_product(self):
+        try:
+            self.import_data=evaluate(self.window.import_viewer.toPlainText())
+        except Exception as e:
+            raise e
         product=dict()
         for i in HolzCraftsFrameEnum.__fields__(HolzCraftsFrameEnum):
             if i not in ['front','corner','front','rear','engraving_zip']:
@@ -1297,6 +1301,7 @@ class Window(QMainWindow,QWidget):
             else:
                 raise Exception("unsupported mode: modes are ['json','csv','pickle']")
         if import_file != '':
+            print(Path(import_file).suffix)
             if Path(import_file).suffix == '':
                 if extension == 'JSON Files(*.json)':
                     import_file=import_file+".json"
