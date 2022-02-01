@@ -1621,6 +1621,8 @@ class Window(QMainWindow,QWidget):
         new_code['id']=object_id
         response=requests.post("{server}/holzcraftsframes/update_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json=new_code)
         self.statusBar().showMessage(str(response))
+        if response.status_code == 200:
+            QMessageBox().warning(None,"Success","Item Update was a success!")
     def get_engraving_zip(self):
         import_file=QFileDialog.getOpenFileName(filter="ZIP Files (*.zip);;Tar Files (*.tar);; XZ Files(*.xz);;GZ Files(*.gz);;All Files(*)")
         print(import_file)
