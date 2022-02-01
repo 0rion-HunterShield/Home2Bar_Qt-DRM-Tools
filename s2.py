@@ -1677,7 +1677,7 @@ class Window(QMainWindow,QWidget):
             modder=Modify(upc=self.window_2.sku.text(),phone_number='(804) 854-4057',outfile_name=save_file)
         print(save_file)
         if self.window_2.open_inkscape.isChecked():
-            val=os.system("inkscape '{file}'".format(file=save_file))
+            val=os.system("inkscape '{file}' &".format(file=save_file))
             self.window.statusBar().showMessage("opening inkscape!")
     def save_qr_code(self,button):
         self.im.save(self.window_2.qr_save_location.text())
