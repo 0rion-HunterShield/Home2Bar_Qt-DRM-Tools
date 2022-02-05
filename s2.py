@@ -225,7 +225,7 @@ else:
 	def add_noise(img):
 	
 	    # Getting the dimensions of the image
-	    row , col = img.shape
+	    row , col,ex = img.shape
 	
 	    # Randomly pick some pixels in the
 	    # image for coloring them white
@@ -641,9 +641,10 @@ else:
 	        svg2png(url=self.new_svg_name,write_to=self.output_name,dpi=600)
 	        if Path(self.new_svg_name).exists():
 	            Path(self.new_svg_name).unlink()
-	        img = cv2.imread(self.output_name,
+	        img = cv2.imread(self.output_name,cv2.IMREAD_UNCHANGED)
+	        ''',
 	                         cv2.IMREAD_GRAYSCALE)
-	
+	        '''
 	        #Storing the image
 	        cv2.imwrite(self.output_name,
 	                    add_noise(img))
