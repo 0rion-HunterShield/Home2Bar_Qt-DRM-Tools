@@ -475,20 +475,27 @@ else:
 	    new_svg_name="new.svg"
 	    output_name="log_{date}.png"
 	    def __init__(self,*args,**kwargs):
+	        def update_output(msg):
+	            if 'update_output' in kwargs.keys():
+	                kwargs['update_output'](msg)
 	        self.output_name=self.output_name.format(date=datetime.now().ctime())
+	        update_output("output_name set to {}".format(self.output_name))
 	        for i in kwargs.keys():
-	            if i in self.__dict__.keys():
-	                self.__dict__[i]=kwargs[i]
-	            else:
-	                raise Exception('argument not valid MF!')
-	
+	            if i not in ['update_output',]:
+	                if i in self.__dict__.keys():
+	                    self.__dict__[i]=kwargs[i]
+	                else:
+	                    raise Exception('argument not valid MF!')
+	        update_output("__init__ kwargs set")
 	        for i in self.days:
 	            self.tmps[i]=Temps()
-	        print([self.tmps[i] for i in self.tmps.keys()])
+	        update_output("generated temperature data for 7 days")
+	        #print([self.tmps[i] for i in self.tmps.keys()])
 	        if not debug:
 	            self.svg=svgutils.transform.fromstring(base64.b64decode(templog).decode('utf-8'))
 	        else:
 	            self.svg=svgutils.transform.fromfile(self.template)
+	        update_output("created localized SVG")
 	        def am_products():
 	            for d in self.days:
 	                for entry in self.mapping.keys():
@@ -635,12 +642,17 @@ else:
 	        pm_temp()
 	        am_time()
 	        pm_time()
+	        update_output("localized svg modified")
 	        #'''
 	
 	        self.svg.save(self.new_svg_name)
+	        update_output("localized svg saved to {}".format(self.new_svg_name))
 	        svg2png(url=self.new_svg_name,write_to=self.output_name,dpi=600)
+	        update_output("{} converted to {}".format(self.new_svg_name,self.output_name))
 	        if Path(self.new_svg_name).exists():
 	            Path(self.new_svg_name).unlink()
+	            update_output("deleted {}".format(self.new_svg_name))
+	
 	        img = cv2.imread(self.output_name,cv2.IMREAD_UNCHANGED)
 	        ''',
 	                         cv2.IMREAD_GRAYSCALE)
@@ -649,21 +661,11 @@ else:
 	        cv2.imwrite(self.output_name,
 	                    add_noise(img))
 	        print("saving {}".format(self.output_name))
-	        '''
-	        for key in self.ids:
-	            print(key)
-	            element=self.svg.find_id(key)
-	            print(element)
-	            children=element.root.getchildren()
-	            if len(children) == 1:
-	                print(
-	                children[0].text
-	                )
-	        '''
+	        update_output("added salt & pepper to {}".format(self.output_name))
 	
 	print(sys.argv[0])
 	if len(sys.argv) > 1 and sys.argv[1] == sys.argv[0]:
-	    Reader()
+	    Reader(update_output=print)
 	#Temps(write_to="temps.csv",write_to_mode="w")
 
 class Signals(QObject):
