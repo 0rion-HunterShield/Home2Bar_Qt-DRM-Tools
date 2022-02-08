@@ -213,6 +213,13 @@ else:
 	from pathlib import Path
 	import xml.etree.ElementTree as etree
 	from cairosvg import svg2png
+	from PyQt6.QtWidgets import *
+	from PyQt6 import uic
+	from PyQt6.QtCore import pyqtSlot,pyqtSignal
+	from PyQt6.QtGui import *
+	from PyQt6.QtWidgets import *
+	from PyQt6.QtCore import *
+	from PyQt6.QtWidgets import QGraphicsScene, QGraphicsView
 	debug=False
 	if len(sys.argv) > 1 and sys.argv[1] == "debug":
 	    debug=True
@@ -296,15 +303,37 @@ else:
 	    'califia',
 	    'chobani',
 	    'horizon',
+	    'a2',
+	    'open nature',
+	    'oat yeah',
+	    'planet oat',
+	    'mocha mix',
+	    'intn. delight',
+	    'coffee mate',
+	    'so delicious',
+	    'horizon',
+	    'o organics',
 	    ]
 	    brands_yogurt=[
 	    'yoplait',
 	    'redwood hill',
 	    'noosa',
-	    'chobani'
+	    'chobani',
+	    'ellenos',
+	    'nancies',
+	    'oorganics',
+	    'open nature',
+	    'activia',
+	    'fage',
+	    'ratio',
+	    'keto',
+	    'general mills',
+	    'so delicious',
+	    'dannon',
+	    'silk',
 	    ]
-	    brands_cheese=['tillamook','horizon','o organics','open nature','sargento',]
-	    brands_eggs=['jcae','ben and jerries','nellies','just egg',]
+	    brands_cheese=['tillamook','horizon','o organics','open nature','sargento','violife','daiya','galbani','kraft',]
+	    brands_eggs=['jcae','ben and jerries','nellies','just egg','happy egg inc.','lucerne','egg beaters','rock island','vital farms','o orgnanics','open nature']
 	    milk=[]
 	    yogurt=[]
 	    cheese=[]
@@ -667,6 +696,9 @@ else:
 	        print("saving {}".format(self.output_name))
 	        update_output("added salt & pepper to {}".format(self.output_name))
 	        '''
+	
+	
+	
 	print(sys.argv[0])
 	if len(sys.argv) > 1 and sys.argv[1] == sys.argv[0]:
 	    #args for gui
@@ -1152,7 +1184,6 @@ class Window(QMainWindow,QWidget):
 
 
             #self.temp_worker.run()
-
     #end retail tools temperature log
     def download_engraving_zip(self):
         if self.file_engraving_zip.get("file"):
@@ -1750,7 +1781,6 @@ class Window(QMainWindow,QWidget):
             QMessageBox.information(self,"Success","new product created successfully!")
         else:
             QMessageBox.information(self,"Error",str(response))
-
     def get_code128(self):
         filename=self.browse_code128()
         state=self.generate_code128(self.window_2.sku.text(),filename)
@@ -1758,8 +1788,6 @@ class Window(QMainWindow,QWidget):
             QMessageBox.information(None,"Success","successfully saved Code128 to {}".format(filename))
         else:
             QMessageBox.warning(None,"Failure","Failed to save Code128 to {}".format(filename))
-
-
     def browse_code128(self) -> str:
         ext=['PNG','*']
         filters=';;'.join(['{e} Files(*.{e})'.format(e=i) for i in ext])
@@ -1768,7 +1796,6 @@ class Window(QMainWindow,QWidget):
         if Path(save_file).suffix != ".png":
             save_file+=".png"
         return save_file
-
     def generate_code128(self,code:str,fname:str) -> bool:
         try:
             from barcode.writer import ImageWriter
@@ -1792,10 +1819,6 @@ class Window(QMainWindow,QWidget):
         except Exception as e:
             print(e)
             return False
-
-
-
-
     def setup_buttons(self):
         self.window.browse_engraving_zip.clicked.connect(self.engraving_zip)
         '''self.window.browse_#munge#.clicked.connect(self.#munge#)'''
