@@ -1748,6 +1748,10 @@ class Window(QMainWindow,QWidget):
             self.refresh_sku()
             self.window.statusBar().showMessage("refreh_sku()")
         self.window.statusBar().showMessage(str(response)+str(response.json()))
+        if response.status_code == 200:
+            QMessageBox.information(self,"Success","new product created successfully!")
+        else:
+            QMessageBox.information(self,"Error",str(response))
     def setup_buttons(self):
         self.window.browse_engraving_zip.clicked.connect(self.engraving_zip)
         '''self.window.browse_#munge#.clicked.connect(self.#munge#)'''
