@@ -27,9 +27,7 @@ import shutil,csv,string,requests,time,sys,os,pyqrcode,base64,json,cairosvg,pyqr
 from io import BytesIO,StringIO
 from PIL.ImageQt import ImageQt
 import lzma,tarfile
-#from cairosvg import svg2png
-#import pyocr
-#import pyocr.builders
+from cairosvg import svg2png
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
 import pytesseract,random
@@ -1812,11 +1810,6 @@ class Window(QMainWindow,QWidget):
 
 
         self.window.statusBar().showMessage("opening eog!")
-
-
-
-
-
     def close_window_2(self):
         self.window_2.edit.setChecked(False)
         self.window_2.close()
