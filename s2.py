@@ -2585,44 +2585,19 @@ class Window(QMainWindow,QWidget):
         self.generate_QR(bios.read())
         self.window_2.export2fs.clicked.connect(self.export2fs)
     def export2fs(self,button):
-        import_file,extension=QFileDialog.getSaveFileName(filter="JSON Files(*.json);;CSV Files(*.csv);;PICKLE FILE(*.pickle);;All Files(*)")
+        print(dir(self.exportable),self.exportable)
+        import_file,extension=QFileDialog.getSaveFileName(parent=self,directory='{}.json'.format(self.exportable.get('sku')),filter="JSON Files(*.json);;All Files(*)")
         print(import_file,extension)
         def run_exporter(filename,mode):
             if mode == "json":
                 with open(filename,'w') as out:
                     json.dump(self.exportable,out)
-            elif mode == "csv":
-                with open(filename,'w') as out:
-                    writer=csv.writer(out,delimiter=',')
-                    writer.writerow([i for i in self.exportable.keys()])
-                    writer.writerow([i for i in self.exportable.values()])
-            elif mode == "pickle":
-                with open(filename,'wb') as out:
-                    pickle.dump(self.exportable,out)
             else:
-                raise Exception("unsupported mode: modes are ['json','csv','pickle']")
+                raise Exception("unsupported mode: modes are ['json']")
         if import_file != '':
-            print(Path(import_file).suffix)
-            if Path(import_file).suffix == '':
-                if extension == 'JSON Files(*.json)':
-                    import_file=import_file+".json"
-                    run_exporter(import_file,"json")
-                elif extension == 'CSV Files(*.csv)':
-                    import_file+=".csv"
-                    run_exporter(import_file,"csv")
-                elif extension == 'PICKLE FILE(*.pickle)':
-                    import_file+=".pickle"
-                    run_exporter(import_file,"pickle")
-            else:
-                if extension == 'JSON Files(*.json)':
-                    import_file=import_file+".json"
-                    run_exporter(import_file,"json")
-                elif extension == 'CSV Files(*.csv)':
-                    import_file+=".csv"
-                    run_exporter(import_file,"csv")
-                elif extension == 'PICKLE FILE(*.pickle)':
-                    import_file+=".pickle"
-                    run_exporter(import_file,"pickle")
+            run_exporter(import_file,"json")
+
+
     def generate_QR(self,code):
         tmp=code
         skip_next=False
