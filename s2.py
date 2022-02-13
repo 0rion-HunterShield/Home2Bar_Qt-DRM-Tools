@@ -1140,6 +1140,7 @@ class PollingWorker(QRunnable):
         self.signals.update.emit('')
         self.signals.result.emit('')
 class Window(QMainWindow,QWidget):
+    #need camera dialog to take pictures directly from software from new product page and item editor
     #scan2text start
     def setup_scan2text(self):
         self.window.scan2text_run.clicked.connect(self.run_camera)
@@ -1918,7 +1919,6 @@ class Window(QMainWindow,QWidget):
                 QMessageBox.critical(None,"Failure","could not get latest log")
         except:
             QMessageBox.critical(None,"Failure","could not get latest log")
-
     def print_temperature_logs(self):
         names=[]
         for i in range(self.window.temperatureLog_count.value()):
