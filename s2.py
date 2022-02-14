@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+0#! /usr/bin/env python3
 import platform
 import PyQt6
 from PyQt6.QtPrintSupport import *
@@ -2118,6 +2118,7 @@ class Window(QMainWindow,QWidget):
             self.window_2=uic.loadUi(StringIO(base64.b64decode(self.itemui).decode('utf-8')))
         self.setup_comboBoxes3()
         self.setup_editor()
+        self.setup_images()
 
         currentItem=self.window.results.currentItem()
         id=currentItem.text().split(':')[1]
@@ -2207,6 +2208,7 @@ class Window(QMainWindow,QWidget):
                 #self.file_corner_rendered=self.file_corner_rendered.resize((nw,nh))
                 print('1')
                 self.file_corner_qim=ImageQt(self.file_corner_rendered)
+                self.file_corner_rendered.save('x.png')
                 print('2')
                 self.file_corner_pix.setPixmap(QPixmap.fromImage(self.file_corner_qim))
                 print('4')
@@ -2836,6 +2838,45 @@ class Window(QMainWindow,QWidget):
         pixmap.loadFromData(bits)
         icon=QIcon(pixmap)
         self.window.setWindowIcon(icon)
+    def setup_images(self):
+        self.file_front_scene=QGraphicsScene()
+        self.file_rear_scene=QGraphicsScene()
+        self.file_corner_scene=QGraphicsScene()
+        self.file_corner_rendered=Image.new(size=(380,380),mode="RGBA")
+        self.file_rear_rendered=Image.new(size=(380,380),mode="RGBA")
+        self.file_front_rendered=Image.new(size=(380,380),mode="RGBA")
+        self.file_corner_qim=ImageQt(self.file_corner_rendered)
+        self.file_corner_pix=QGraphicsPixmapItem()
+        self.file_front_qim=ImageQt(self.file_front_rendered)
+        self.file_front_pix=QGraphicsPixmapItem()
+        self.file_rear_qim=ImageQt(self.file_rear_rendered)
+        self.file_rear_pix=QGraphicsPixmapItem()
+        self.window_2.corner_view.setScene(self.file_corner_scene)
+        self.window_2.corner_view.fitInView(0,0,100,100,Qt.AspectRatioMode.KeepAspectRatio)
+        self.file_corner_scene.addItem(self.file_corner_pix)
+
+        #self.file_front_scene=QGraphicsScene()
+        #self.file_front_rendered=Image.new(size=(100,100),mode="RGBA")
+        #self.file_front_qim=ImageQt(self.file_front_rendered)
+        #self.file_front_pix=QGraphicsPixmapItem()
+        self.window_2.front_view.setScene(self.file_front_scene)
+        self.window_2.front_view.fitInView(0,0,100,100,Qt.AspectRatioMode.KeepAspectRatio)
+        self.file_front_scene.addItem(self.file_front_pix)
+
+        self.window_2.rear_view.setScene(self.file_rear_scene)
+        self.window_2.rear_view.fitInView(0,0,100,100,Qt.AspectRatioMode.KeepAspectRatio)
+        self.file_rear_scene.addItem(self.file_rear_pix)
+
+    def setup_ocr(self):
+        self.ocr_scene=QGraphicsScene()
+        self.ocr_img=Image.new(size=(580,580),mode="RGBA",color=(255,0,0))
+        self.ocr_qim=ImageQt(self.ocr_img)
+        self.ocr_pix=QGraphicsPixmapItem()
+        self.ocr_pix.setPixmap(QPixmap.fromImage(self.ocr_qim))
+        self.window.ocr_imageView.setScene(self.ocr_scene)
+        self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
+        self.ocr_scene.addItem(self.ocr_pix)
+
     def __init__(self,parent=None):
         self.file_corner=None
         self.file_rear=None
@@ -2873,50 +2914,10 @@ class Window(QMainWindow,QWidget):
         self.poller.start(1000)
         self.setup_editor()
         self.load_settings()
-        self.file_front_scene=QGraphicsScene()
-        self.file_rear_scene=QGraphicsScene()
-        self.file_corner_scene=QGraphicsScene()
-
-        self.file_corner_rendered=Image.new(size=(380,380),mode="RGBA")
-        self.file_rear_rendered=Image.new(size=(380,380),mode="RGBA")
-        self.file_front_rendered=Image.new(size=(380,380),mode="RGBA")
-
-        self.file_corner_qim=ImageQt(self.file_corner_rendered)
-        self.file_corner_pix=QGraphicsPixmapItem()
-
-        self.file_front_qim=ImageQt(self.file_front_rendered)
-        self.file_front_pix=QGraphicsPixmapItem()
-        self.file_rear_qim=ImageQt(self.file_rear_rendered)
-        self.file_rear_pix=QGraphicsPixmapItem()
 
 
-        self.ocr_scene=QGraphicsScene()
-        self.ocr_img=Image.new(size=(580,580),mode="RGBA",color=(255,0,0))
-
-        self.ocr_qim=ImageQt(self.ocr_img)
-        self.ocr_pix=QGraphicsPixmapItem()
-
-        self.ocr_pix.setPixmap(QPixmap.fromImage(self.ocr_qim))
-        self.window.ocr_imageView.setScene(self.ocr_scene)
-        self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
-        self.ocr_scene.addItem(self.ocr_pix)
-
-        self.window_2.corner_view.setScene(self.file_corner_scene)
-        self.window_2.corner_view.fitInView(0,0,380,380,Qt.AspectRatioMode.KeepAspectRatio)
-        self.file_corner_scene.addItem(self.file_corner_pix)
-
-        #self.file_front_scene=QGraphicsScene()
-        #self.file_front_rendered=Image.new(size=(380,380),mode="RGBA")
-        #self.file_front_qim=ImageQt(self.file_front_rendered)
-        #self.file_front_pix=QGraphicsPixmapItem()
-        self.window_2.front_view.setScene(self.file_front_scene)
-        self.window_2.front_view.fitInView(0,0,380,380,Qt.AspectRatioMode.KeepAspectRatio)
-        self.file_front_scene.addItem(self.file_front_pix)
-
-        self.window_2.rear_view.setScene(self.file_rear_scene)
-        self.window_2.rear_view.fitInView(0,0,380,380,Qt.AspectRatioMode.KeepAspectRatio)
-        self.file_rear_scene.addItem(self.file_rear_pix)
-
+        self.setup_images()
+        self.setup_ocr()
         self.setup_photobooth()
 
         self.window.show()
