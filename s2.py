@@ -2041,9 +2041,14 @@ class Window(QMainWindow,QWidget):
                     response=requests.post("{server}/holzcraftsframes/update_files_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':object_id,'name':self.window_2.engraving_zip.text(),'file':base64.b64encode(file.read()).decode('utf-8'),'which':'engraving_zip'})
                     print(response)
                     self.window.statusBar().showMessage(str(response))
+                    if response.status_code == 200:
+                        QMessageBox.information(None,"Update Success","update was a success!")
+                    else:
+                        QMessageBox.critical(None,"Update Failure","failed to update!")
         except Exception as e:
             print(e)
             self.window.statusBar().showMessage(str(e))
+            QMessageBox.critical(None,"Exception",str(e))
     def update_front(self):
         objectInfo=self.window.results.currentItem().text()
         object_id=int(objectInfo.split(':')[1])
@@ -2053,9 +2058,14 @@ class Window(QMainWindow,QWidget):
                     response=requests.post("{server}/holzcraftsframes/update_files_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':object_id,'name':self.window_2.front.text(),'file':base64.b64encode(file.read()).decode('utf-8'),'which':'front'})
                     print(response)
                     self.window.statusBar().showMessage(str(response))
+                    if response.status_code == 200:
+                        QMessageBox.information(None,"Update Success","update was a success!")
+                    else:
+                        QMessageBox.critical(None,"Update Failure","failed to update!")
         except Exception as e:
             print(e)
             self.window.statusBar().showMessage(str(e))
+            QMessageBox.critical(None,"Exception",str(e))
     def update_rear(self):
         objectInfo=self.window.results.currentItem().text()
         object_id=int(objectInfo.split(':')[1])
@@ -2065,9 +2075,15 @@ class Window(QMainWindow,QWidget):
                     response=requests.post("{server}/holzcraftsframes/update_files_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':object_id,'name':self.window_2.rear.text(),'file':base64.b64encode(file.read()).decode('utf-8'),'which':'rear'})
                     print(response)
                     self.window.statusBar().showMessage(str(response))
+                    if response.status_code == 200:
+                        QMessageBox.information(None,"Update Success","update was a success!")
+                    else:
+                        QMessageBox.critical(None,"Update Failure","failed to update!")
         except Exception as e:
             print(e)
             self.window.statusBar().showMessage(str(e))
+            QMessageBox.critical(None,"Exception",str(e))
+
     def update_corner(self):
         objectInfo=self.window.results.currentItem().text()
         object_id=int(objectInfo.split(':')[1])
@@ -2077,9 +2093,14 @@ class Window(QMainWindow,QWidget):
                     response=requests.post("{server}/holzcraftsframes/update_files_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':object_id,'name':self.window_2.corner.text(),'file':base64.b64encode(file.read()).decode('utf-8'),'which':'corner'})
                     print(response)
                     self.window.statusBar().showMessage(str(response))
+                    if response.status_code == 200:
+                        QMessageBox.information(None,"Update Success","update was a success!")
+                    else:
+                        QMessageBox.critical(None,"Update Failure","failed to update!")
         except Exception as e:
             print(e)
             self.window.statusBar().showMessage(str(e))
+            QMessageBox.critical(None,"Exception",str(e))
     def delete_item(self,button):
         response=requests.post("{server}/holzcraftsframes/delete_item_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':int(self.window.results.currentItem().text().split(":")[1])})
         self.window_2.close()
@@ -2192,8 +2213,6 @@ class Window(QMainWindow,QWidget):
         print("settings up images()")
         self.setup_downloaded_images()
         self.window_2.exec()
-
-
     def setup_downloaded_images(self):
         try:
             #self.file_corner_scene.updateSceneRect(QrectF(0,0,400,400))
