@@ -1885,11 +1885,11 @@ class Window(QMainWindow,QWidget):
         if state:
             QMessageBox.information(None,"Success","successfully saved Code128 to {}".format(filename))
         else:
-            QMessageBox.warning(None,"Failure","Failed to save Code128 to {}".format(filename))
+            QMessageBox.warning(None,"Failure","Failed to save Code128".format(filename))
     def browse_code128(self) -> str:
         ext=['PNG','*']
         filters=';;'.join(['{e} Files(*.{e})'.format(e=i) for i in ext])
-        save_file,extension=QFileDialog.getSaveFileName(filter=filters)
+        save_file,extension=QFileDialog.getSaveFileName(filter=filters,directory=self.window_2.sku.text()+"_upc.png")
         print(save_file,extension)
         if Path(save_file).suffix != ".png":
             save_file+=".png"
@@ -2709,7 +2709,7 @@ align:center;
             out.write(inv)
         os.system("wkhtmltopdf {fname} {pdfname} ; lpr {pdfname} ; rm {fname} {pdfname};".format(fname="tmp_invoice.html",pdfname="tmp_invoice.pdf"))
     def get_label_file(self):
-        save_file,extension=QFileDialog.getSaveFileName(filter="SVG Files(*.svg);;All Files(*)",directory=self.window_2.sku.text()+".svg")
+        save_file,extension=QFileDialog.getSaveFileName(filter="SVG Files(*.svg);;All Files(*)",directory=self.window_2.sku.text()+"_label.svg")
         if extension == 'SVG Files(*.svg)':
             if Path(save_file).suffix != '.svg':
                 save_file+=".svg"
