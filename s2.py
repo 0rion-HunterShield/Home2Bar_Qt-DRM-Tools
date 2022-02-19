@@ -1141,7 +1141,16 @@ class Window(QMainWindow,QWidget):
         self.window_2.catalog_submit.clicked.connect(self.addBatch)
         self.getBatch()
     def addBatch(self):
-        currentItem=self.window.catalog_in_batch_results.currentItem()
+        caller=self.sender().objectName()
+        print(caller)
+        currentItem=False
+        if caller in ['catalog_in_batch_results']:
+            currentItem=self.window.catalog_in_batch_results.currentItem()
+        elif caller == 'results':
+            currentItem=self.window.results.currentItem()
+        elif caller in ['catalog_submit',]:
+            currentItem=self.item_edit_current_item
+
         id=int(currentItem.text().split(':')[1])
         print("add batch")
         JSON=dict(
@@ -1158,7 +1167,13 @@ class Window(QMainWindow,QWidget):
             QMessageBox.warning(self,"Failure","Failed to update batch!")
 
     def getBatch(self):
-        currentItem=self.window.catalog_in_batch_results.currentItem()
+
+        print(self.sender().objectName())
+        if self.sender().objectName() == 'results':
+            currentItem=self.window.results.currentItem()
+        else:
+            currentItem=self.window.catalog_in_batch_results.currentItem()
+
         id=int(currentItem.text().split(':')[1])
         response=requests.post('{server}/holzcraftsframes/catalog/getbatch/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'productID':id})
         JSON=response.json()
@@ -2186,6 +2201,7 @@ class Window(QMainWindow,QWidget):
         #currentItem=self.window.results.currentItem()
         currentItem=self.sender()
         cu=currentItem.currentItem()
+        self.item_edit_current_item=cu
 
         id=cu.text().split(':')[1]
         response=requests.post('{server}/holzcraftsframes/get_id/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':int(id)})
