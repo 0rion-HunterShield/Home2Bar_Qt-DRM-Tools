@@ -3274,6 +3274,15 @@ align:center;
     def setup_lineEdits(self):
         def sku(self):
             self.window.sku.setText(self.generate_sku())
+        def locations(self):
+            home=Path.home()
+            rear=str(home/Path('rear.png'))
+            front=str(home/Path('front'))
+            corner=str(home/Path('corner'))
+            self.window.rear.setText(rear)
+            self.window.front.setText(front)
+            self.window.corner.setText(corner)
+        locations(self)
         sku(self)
     def generate_sku(self):
         tmp=[]
