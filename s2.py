@@ -1214,6 +1214,7 @@ class Window(QMainWindow,QWidget):
                 save_file+=".html"
             if save_file != '':
                 self.window.catalog_save_location.setText(save_file)
+    #this really big
     def catalog_generate(self):
         html=[]
         final=[]
