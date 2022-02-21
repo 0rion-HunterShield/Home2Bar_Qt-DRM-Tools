@@ -1,8 +1,6 @@
 #! /usr/bin/env python3
-import platform
-import PyQt6
+import platform,PyQt6
 from PyQt6.QtPrintSupport import *
-import pyperclip
 from PyQt6.QtWidgets import *
 from PyQt6 import uic
 from PyQt6.QtCore import pyqtSlot,pyqtSignal
@@ -27,11 +25,11 @@ from PIL import Image
 import shutil,csv,string,requests,time,sys,os,pyqrcode,base64,json,cairosvg,pyqrcode,random,pickle,shutil
 from io import BytesIO,StringIO
 from PIL.ImageQt import ImageQt
-import lzma,tarfile
+import lzma,tarfile,copy
 from cairosvg import svg2png
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
-import pytesseract,random
+import pytesseract,random,pyperclip
 #local import
 from qrtools import qrtools
 from ast import literal_eval as evaluate
@@ -2147,12 +2145,11 @@ class Window(QMainWindow,QWidget):
             response=requests.post(address,data=JSON,headers={'Authorization':'Token {}'.format(token)})
         print(response)
         self.window.statusBar().showMessage(str(response))
+        skutemp=copy.deepcopy(self.window.sku.text())
         if self.window.reset_when_done.isChecked():
             self.window.comments.setPlainText('')
             self.window.engraving_zip.setText('')
-            self.window.rear.setText('')
-            self.window.corner.setText('')
-            self.window.front.setText('')
+            self.locations_newimg()
             self.window.price.setValue(0)
             self.window.other_frame_size_diameter.setValue(0)
             self.window.item_weight.setValue(0)
@@ -2161,10 +2158,11 @@ class Window(QMainWindow,QWidget):
             self.window.statusBar().showMessage("reset when done completed!")
         if self.window.new_sku_when_done.isChecked():
             self.refresh_sku()
-            self.window.statusBar().showMessage("refreh_sku()")
+            self.window.statusBar().showMessage("refresh_sku()")
         self.window.statusBar().showMessage(str(response)+str(response.json()))
         if response.status_code == 200:
-            QMessageBox.information(self,"Success","new product created successfully!")
+            QMessageBox.information(self,"Success","new product created successfully! [{sku}]".format(sku=skutemp))
+            pyperclip.copy(skutemp)
         else:
             QMessageBox.information(self,"Error",str(response))
     def get_code128(self):
@@ -3272,18 +3270,18 @@ align:center;
             paid_for(self)
             #self.window_2.rear_view.update
         init(self)
+    def locations_newimg(self):
+        home=Path.home()
+        rear=str(home/Path('rear.png'))
+        front=str(home/Path('front.png'))
+        corner=str(home/Path('corner.png'))
+        self.window.rear.setText(rear)
+        self.window.front.setText(front)
+        self.window.corner.setText(corner)
     def setup_lineEdits(self):
         def sku(self):
             self.window.sku.setText(self.generate_sku())
-        def locations(self):
-            home=Path.home()
-            rear=str(home/Path('rear.png'))
-            front=str(home/Path('front'))
-            corner=str(home/Path('corner'))
-            self.window.rear.setText(rear)
-            self.window.front.setText(front)
-            self.window.corner.setText(corner)
-        locations(self)
+        self.locations_newimg()
         sku(self)
     def generate_sku(self):
         tmp=[]
