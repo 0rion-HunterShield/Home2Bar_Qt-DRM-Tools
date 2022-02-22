@@ -2871,11 +2871,16 @@ class Window(QMainWindow,QWidget):
     ##start editor functions
     def update_item(self,button):
         btn=self.sender()
-        objectInfo=self.window.results.currentItem().text()
+        objectInfo=self.window.results.currentItem()
+
+        if objectInfo == None:
+            objectInfo=self.window.catalog_in_batch_results.currentItem().text()
+        else:
+            objectInfo=objectInfo.text()
         object_id=int(objectInfo.split(':')[1])
         response=requests.post("{server}/holzcraftsframes/get_id/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json={'id':object_id})
         original=response.json()
-        new_code=copy(original)
+        new_code=copy.deepcopy(original)
         print(original,response,objectInfo)
         for key in original.keys():
             widget=self.window_2.__dict__.get(key)
@@ -3018,23 +3023,29 @@ align:center;
         self.file_corner=json.loads(content.decode('utf-8'))
     def generate_invoice_html2(self):
         invoice='''
-                <style>
-                    {style}
-                </style>
-                <div id="title">
-                    <h1>Holzcrafts {product_type}</h1>
-                    <h2>{product}</h2>
-                </div>
-                <div id="details">
+                <p class="page" style="page-break-after: always;">
+                    <style>
+                        {style}
+                    </style>
+                    <p class="page" style="page-break-after: always;">
+                        <div id="title">
+                            <h1>Holzcrafts {product_type}</h1>
+                            <h2>{product}</h2>
+                        </div>
                         <div id="images">
                             <img src='data:img/png;base64,{data_1}' alt=''/>
                             <img src='data:img/png;base64,{data_2}' alt=''/>
                             <img src='data:img/png;base64,{data_3}' alt=''/>
                         </div>
-                        <table>
-                                {parts}
-                        </table>
-                </div>
+                    </p>
+                    <p class="page" style="page-break-after: always;">
+                        <div id="details">
+                                <table>
+                                        {parts}
+                                </table>
+                        </div>
+                    </p>
+                </p>
         '''
         id=self.exportable.get('id')
         self.download_rear_for_catalog(id=id)
