@@ -3463,7 +3463,16 @@ align:center;
                             print(outstr)
                             out.write(outstr)
                         QMessageBox.information(self,"Done","Updates are done!")
-
+                else:
+                    msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nUpdating now!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
+                    print(msg)
+                    QMessageBox.critical(self,"Updates Required",msg)
+                    self.get_update()
+                    with open(lock_path,'w+') as out:
+                        outstr=json.dumps(update_info())
+                        print(outstr)
+                        out.write(outstr)
+                    QMessageBox.information(self,"Done","Updates are done!")
 
         check_for_update_lock()
     def get_update(self):
