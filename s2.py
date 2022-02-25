@@ -3422,6 +3422,7 @@ align:center;
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
     code_version='HCA15.2'
+    latest_version=None
     def check_for_updates(self):
         def update_info():
             response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
@@ -3454,6 +3455,10 @@ align:center;
                         msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nAn is auto updater is in the works!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
                         print(msg)
                         self.get_update()
+                        with open(lock_path,'w+') as out:
+                            outstr=json.dumps(update_info())
+                            print(outstr)
+                            out.write(outstr)
                         QMessageBox.critical(self,"Updates Required",msg)
 
         check_for_update_lock()
