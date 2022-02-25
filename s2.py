@@ -3451,14 +3451,16 @@ align:center;
                 if data.get('version') != None:
                     update_info_server=update_info()
                     if data.get('version') != update_info_server.get('version'):
-                        msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nAn is auto updater is in the works!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
+                        msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nUpdating now!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
                         print(msg)
+                        QMessageBox.critical(self,"Updates Required",msg)
                         self.get_update()
                         with open(lock_path,'w+') as out:
                             outstr=json.dumps(update_info())
                             print(outstr)
                             out.write(outstr)
-                        QMessageBox.critical(self,"Updates Required",msg)
+                        QMessageBox.information(self,"Done","Updates are done!")
+
 
         check_for_update_lock()
     def get_update(self):
