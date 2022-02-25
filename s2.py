@@ -1537,7 +1537,7 @@ class Window(QMainWindow,QWidget):
                 index=i
         self.window.tabWidget.setCurrentIndex(index)
     #scan2text end
-    
+
     #start retail tools temperature log
     def temperatureLog_saveLocation_browse(self):
         filename,extension=QFileDialog.getSaveFileName(filter="SVG Files (*.SVG);;All Files(*);;IMAFUCKYOU Files (*.imfy);;Bitch Tit's Files (*.btf)")
@@ -2021,11 +2021,7 @@ class Window(QMainWindow,QWidget):
                 print(i,'key')
                 print(product_dict[i],'data')
             except Exception as e:
-                print(str(e))    def install_update():
-        pass
-    def restart_me():
-        pass
-        #now make an update installer
+                print(str(e))
                 raise Exception("Invalid Product")
         if result == True:
             return
@@ -3489,6 +3485,7 @@ align:center;
             os.system("git clone {address}".format(address="https://github.com/0rion-HunterShield/Home2Bar_Qt-DRM-Tools"))
             os.chdir('Home2Bar_Qt-DRM-Tools')
             os.system("./update-client.sh")
+
     def __init__(self,parent=None):
         self.file_corner=None
         self.file_rear=None
