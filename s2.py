@@ -2670,7 +2670,7 @@ class Window(QMainWindow,QWidget):
         self.window.statusBar().showMessage('settings saved!')
     def load_settings(self):
         try:
-            with open('.settings.cfg','rb') as settings:
+            with open(Path.home()/Path('.settings.cfg'),'rb') as settings:
                 settled=pickle.load(settings)
                 self.window.token.setText(settled.get('token'))
                 self.window.server.setText(settled.get('server'))
