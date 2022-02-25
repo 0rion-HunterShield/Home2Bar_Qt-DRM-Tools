@@ -1204,16 +1204,19 @@ class Window(QMainWindow,QWidget):
         response=requests.get("{server}/holzcraftsframes/catalog/clear/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         self.window.catalog_in_batch_results.clear()
     def catalog_refresh(self):
-        self.window.catalog_in_batch_results.clear()
-        batch_number=self.window.catalog_batch_number.value()
-        address="{server}/holzcraftsframes/catalog/getbatches/".format(server=self.window.server.text())
-        print(address)
-        response=requests.post(address,headers={'Authorization':"Token {}".format(self.window.token.text())},json={'batch_number':batch_number})
-        json=response.json()
-        print(json)
-        for i in json.get('results'):
-            print(i)
-            self.window.catalog_in_batch_results.addItem(i)
+        try:
+            self.window.catalog_in_batch_results.clear()
+            batch_number=self.window.catalog_batch_number.value()
+            address="{server}/holzcraftsframes/catalog/getbatches/".format(server=self.window.server.text())
+            print(address)
+            response=requests.post(address,headers={'Authorization':"Token {}".format(self.window.token.text())},json={'batch_number':batch_number})
+            json=response.json()
+            print(json)
+            for i in json.get('results'):
+                print(i)
+                self.window.catalog_in_batch_results.addItem(i)
+        except Exception as e:
+            QMessageBox.critical(self,"Invalid Token","You need to update your token")
     def catalog_browse(self):
         save_file,extension=QFileDialog.getSaveFileName(filter="HTML Files(*.html);;All Files(*)",directory=self.window_2.sku.text()+"catalog.html")
         if extension == 'HTML Files(*.html)':
