@@ -3420,6 +3420,8 @@ align:center;
         self.window.ocr_imageView.setScene(self.ocr_scene)
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
+    def check_for_updates(self):
+        pass
     def __init__(self,parent=None):
         self.file_corner=None
         self.file_rear=None
