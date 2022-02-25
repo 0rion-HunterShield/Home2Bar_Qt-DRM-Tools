@@ -3425,7 +3425,7 @@ align:center;
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
     code_version='HCA15.6'
-    def update_info():
+    def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
         if response.status_code == 200:
