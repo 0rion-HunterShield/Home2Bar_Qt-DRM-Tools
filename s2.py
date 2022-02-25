@@ -3451,8 +3451,8 @@ align:center;
                 data=infile.read()
                 print(data)
                 data=json.loads(data)
+                update_info_server=self.update_info()
                 if data.get('version') != None:
-                    update_info_server=self.update_info()
                     if data.get('version') != update_info_server.get('version'):
                         msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nUpdating now!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
                         print(msg)
