@@ -1537,7 +1537,7 @@ class Window(QMainWindow,QWidget):
                 index=i
         self.window.tabWidget.setCurrentIndex(index)
     #scan2text end
-    version="HCA8"
+    
     #start retail tools temperature log
     def temperatureLog_saveLocation_browse(self):
         filename,extension=QFileDialog.getSaveFileName(filter="SVG Files (*.SVG);;All Files(*);;IMAFUCKYOU Files (*.imfy);;Bitch Tit's Files (*.btf)")
@@ -2021,7 +2021,11 @@ class Window(QMainWindow,QWidget):
                 print(i,'key')
                 print(product_dict[i],'data')
             except Exception as e:
-                print(str(e))
+                print(str(e))    def install_update():
+        pass
+    def restart_me():
+        pass
+        #now make an update installer
                 raise Exception("Invalid Product")
         if result == True:
             return
@@ -2067,7 +2071,7 @@ class Window(QMainWindow,QWidget):
         #msgBox.setIcon(QMessageBox.Information)
         msgBox.setText("""
         HolcraftsAdminQt6 {version} for managing Holzcrafts.
-        """.format(version=self.version))
+        """.format(version=self.code_version))
         msgBox.setWindowTitle("Home2Bar About")
         returnValue = msgBox.exec()
     def engraving_zip(self):
@@ -3424,7 +3428,7 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA15.7'
+    code_version='HCA15.8'
     def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
@@ -3485,15 +3489,6 @@ align:center;
             os.system("git clone {address}".format(address="https://github.com/0rion-HunterShield/Home2Bar_Qt-DRM-Tools"))
             os.chdir('Home2Bar_Qt-DRM-Tools')
             os.system("./update-client.sh")
-
-
-
-    def install_update():
-        pass
-    def restart_me():
-        pass
-        #now make an update installer
-
     def __init__(self,parent=None):
         self.file_corner=None
         self.file_rear=None
