@@ -3453,9 +3453,28 @@ align:center;
                     if data.get('version') != update_info_server.get('version'):
                         msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nAn is auto updater is in the works!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
                         print(msg)
+                        self.get_update()
                         QMessageBox.critical(self,"Updates Required",msg)
-        check_for_update_lock()
 
+        check_for_update_lock()
+    def get_update(self):
+        update_dir=Path("update")
+        if update_dir.exists():
+            shutil.rmtree(update_dir)
+        if not update_dir.exists():
+            update_dir.mkdir()
+            os.chdir(update_dir)
+            os.system("git clone {address}".format(address="https://github.com/0rion-HunterShield/Home2Bar_Qt-DRM-Tools"))
+            os.chdir('Home2Bar_Qt-DRM-Tools')
+            os.system("xterm -e update-client.sh")
+
+
+
+    def install_update():
+        pass
+    def restart_me():
+        pass
+        #now make an update installer
 
     def __init__(self,parent=None):
         self.file_corner=None
