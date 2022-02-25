@@ -3425,15 +3425,15 @@ align:center;
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
     code_version='HCA15.6'
+    def update_info():
+        response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
+        print(response)
+        if response.status_code == 200:
+            print(response.json())
+            return response.json()
+        else:
+            return {}
     def check_for_updates(self):
-        def update_info():
-            response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
-            print(response)
-            if response.status_code == 200:
-                print(response.json())
-                return response.json()
-            else:
-                return {}
         def update_info_default():
             return json.dumps({'version':'HCA15','comments':'default version'})
 
@@ -3452,14 +3452,14 @@ align:center;
                 print(data)
                 data=json.loads(data)
                 if data.get('version') != None:
-                    update_info_server=update_info()
+                    update_info_server=self.update_info()
                     if data.get('version') != update_info_server.get('version'):
                         msg="you may need to update so the code works correctly with the server! {version1} -> {version2}\nPlease go to {update_address}\nUpdating now!".format(update_address=self.update_address,version1=data.get('version'),version2=update_info_server.get('version'))
                         print(msg)
                         QMessageBox.critical(self,"Updates Required",msg)
                         self.get_update()
                         with open(lock_path,'w+') as out:
-                            outstr=json.dumps(update_info())
+                            outstr=json.dumps(self.update_info())
                             print(outstr)
                             out.write(outstr)
                         QMessageBox.information(self,"Done","Updates are done!")
@@ -3469,7 +3469,7 @@ align:center;
                     QMessageBox.critical(self,"Updates Required",msg)
                     self.get_update()
                     with open(lock_path,'w+') as out:
-                        outstr=json.dumps(update_info())
+                        outstr=json.dumps(self.update_info())
                         print(outstr)
                         out.write(outstr)
                     QMessageBox.information(self,"Done","Updates are done!")
