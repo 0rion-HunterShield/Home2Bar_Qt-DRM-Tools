@@ -2661,13 +2661,13 @@ class Window(QMainWindow,QWidget):
             )
         print(len(json))
     def save_settings(self):
-        with open('settings.cfg','wb') as saved:
+        with open('.settings.cfg','wb') as saved:
             settings=dict(token=self.window.token.text(),server=self.window.server.text(),email=self.window.settings_email.text(),phone=self.window.settings_phone.text(),address=self.window.settings_address.text())
             pickle.dump(settings,saved)
         self.window.statusBar().showMessage('settings saved!')
     def load_settings(self):
         try:
-            with open('settings.cfg','rb') as settings:
+            with open('.settings.cfg','rb') as settings:
                 settled=pickle.load(settings)
                 self.window.token.setText(settled.get('token'))
                 self.window.server.setText(settled.get('server'))
