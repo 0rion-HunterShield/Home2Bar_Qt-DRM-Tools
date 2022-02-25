@@ -3466,7 +3466,7 @@ align:center;
             os.chdir(update_dir)
             os.system("git clone {address}".format(address="https://github.com/0rion-HunterShield/Home2Bar_Qt-DRM-Tools"))
             os.chdir('Home2Bar_Qt-DRM-Tools')
-            os.system("xterm -e update-client.sh")
+            os.system("xterm -e ./update-client.sh")
 
 
 
