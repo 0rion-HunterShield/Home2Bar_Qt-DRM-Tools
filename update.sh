@@ -8,7 +8,7 @@ cp key.txt ~/key.txt
 
 
 sudo chattr -i ~/.settings.cfg
-cp settings.cfg ~/.settings.cfg
+
 
 
 echo "username: 0rion-HunterShield"
