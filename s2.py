@@ -3433,7 +3433,7 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA16'
+    code_version='HCA16.1'
     def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
@@ -3490,10 +3490,13 @@ align:center;
             shutil.rmtree(update_dir)
         if not update_dir.exists():
             update_dir.mkdir()
+            pwd=Path.cwd()
             os.chdir(update_dir)
             os.system("git clone {address}".format(address="https://github.com/0rion-HunterShield/Home2Bar_Qt-DRM-Tools"))
             os.chdir('Home2Bar_Qt-DRM-Tools')
             os.system("./update-client.sh")
+            os.chdir(pwd)
+            print("returned to {}".format(pwd))
 
     def __init__(self,parent=None):
         self.file_corner=None
