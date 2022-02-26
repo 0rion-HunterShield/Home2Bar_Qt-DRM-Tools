@@ -1228,7 +1228,7 @@ class Window(QMainWindow,QWidget):
     def catalog_all(self):
         caller=self.sender()
         print(caller)
-        response=requests.post("{server}/holzcrafts/catalog/all/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
+        response=requests.post("{server}/holzcraftsframes/catalog/all/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         if response.status_code == 200:
             QMessageBox.information(self,"Success","successfully added inventory to catalog")
         else:
