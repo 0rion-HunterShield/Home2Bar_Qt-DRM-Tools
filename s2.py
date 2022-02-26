@@ -1199,6 +1199,7 @@ class Window(QMainWindow,QWidget):
         self.window.catalog_save.clicked.connect(self.catalog_generate)
         self.window.catalog_browse.clicked.connect(self.catalog_browse)
         self.window.catalog_clear.clicked.connect(self.catalog_clear)
+        self.window.catalog_all.clicked.connect(self.catalog_all)
 
     def catalog_clear(self):
         response=requests.get("{server}/holzcraftsframes/catalog/clear/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
