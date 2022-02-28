@@ -1465,10 +1465,8 @@ class Window(QMainWindow,QWidget):
             div#details {
                 display: grid;
                 text-align: center;
-                margin: 5px;
+                margin: 1px;
                 padding: 5px;
-                border: 2px solid silver;
-                box-shadow: 0px 0px 4px black inset,0px 0px 5px burlywood;
                 width: 95%;
             }
 
