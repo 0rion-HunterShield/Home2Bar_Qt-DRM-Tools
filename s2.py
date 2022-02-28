@@ -1434,8 +1434,8 @@ class Window(QMainWindow,QWidget):
         <title>HolzCrafts Frames - A Simple Touch of Elegance</title>
         <style>
             div#images {
-                display: grid;
-                grid-template-columns: 33% 33% 33%;
+                display: flex;
+                flex-flow:row wrap;
                 border: 1px dashed #702727;
                 margin: 5px;
                 padding: 5px;
@@ -1444,10 +1444,12 @@ class Window(QMainWindow,QWidget):
             }
 
             img {
-                width: 200;
+                width: 350;
                 height: auto;
                 border: 1px solid black;
-                box-shadow: 2px 3px 3px gray;
+                box-shadow: 2px 3px 3px grey;
+                margin: 10;
+                padding: 1px;
             }
             div#cover {
                 background: url(https://media.istockphoto.com/photos/dark-wood-for-texture-or-background-picture-id507628942?k=20&m=507628942&s=170667a&w=0&h=tgtCnRlxgW2y7AUEdkWDofeRu1fI57mi32x0HMNMSLg=);
@@ -3613,7 +3615,7 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA16.2'
+    code_version='HCA16.23'
     def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
