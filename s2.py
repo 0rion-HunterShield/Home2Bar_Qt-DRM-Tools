@@ -3424,6 +3424,7 @@ align:center;
         data+="\n"
         html=''
         for i in self.exportable.keys():
+
             data+='{} = {}\n'.format(i,self.exportable.get(i))
 
             html+='''
@@ -3431,7 +3432,7 @@ align:center;
                                 <th>{key}</th>
                                 <td>{value}</td>
                             </tr>
-            '''.format(key=i,value=self.exportable[i],)
+            '''.format(key=' '.join([x[0].upper()+x[1:] for x in i.replace("_"," ").split(" ")]),value=self.exportable[i],)
         style='''
 th {
 text-align:left;
@@ -3613,7 +3614,7 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA16.24'
+    code_version='HCA16.25'
     def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
