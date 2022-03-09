@@ -44,8 +44,8 @@ else:
 	
 	
 	class HolzCraftsFrameEnum(enum.Enum):
-		product_type=[('Product Type', 'Product Type'), ('Frame', 'Frame'), ('Stand', 'Stand'), ('Ornament', 'Ornament'), ('Name-Chain', 'Name-Chain'), ('Name-Tag', 'Name-Tag'), ('Oven-Rack Push-Pull', 'Oven-Rack Push-Pull'), ('Trophy', 'Trophy'), ('Cutting Board', 'Cutting Board'), ('Quick Conversion Stick', 'Quick Conversion Stick'), ('Generated_SKU', 'Generated_SKU'), ('Wall Deco/Plaque', 'Wall Deco/Plaque'), ('Wall Deco/Name Letters', 'Wall Deco/Name Letters'), ('Sign', 'Sign'), ('Python Code', 'Python Code'), ('HTML CODE', 'HTML CODE'), ('Spread Sheet', 'Spread Sheet'), ('SVG FILE', 'SVG FILE'), ('Product-Plan/Product-Demo', 'Product-Plan/Product-Demo'), ('W-2', 'W-2'), ('1099-INT', '1099-INT'), ('1099-C', '1099-C'), ('General Document', 'General Document'), ('Coaster', 'Coaster'), ('Retail Product (Generic)', 'Retail Product (Generic)'), ('Retail Product(Safeway)', 'Retail Product(Safeway)'), ('Other - See Comments', 'Other - See Comments')]
-		size=[('Size', 'Size'), ('Other', 'Other'), ('Other-Check_Diameter', 'Other-Check_Diameter'), ('2x2', '2x2'), ('3x3', '3x3'), ('3x5', '3x5'), ('3.5x5', '3.5x5'), ('4x4', '4x4'), ('4x6', '4x6'), ('4x10', '4x10'), ('5x5', '5x5'), ('5x7', '5x7'), ('6x6', '6x6'), ('8x6', '8x6'), ('7x7', '7x7'), ('8x8', '8x8'), ('8x10', '8x10'), ('8.5x10', '8.5x10'), ('8x12', '8x12'), ('9x12', '9x12'), ('10x13', '10x13'), ('10x12', '10x12'), ('11x14', '11x14'), ('12x12', '12x12')]
+		product_type=[('Product Type', 'Product Type'), ('Frame', 'Frame'), ('Stand', 'Stand'), ('Box', 'Box'), ('Ornament', 'Ornament'), ('Name-Chain', 'Name-Chain'), ('Name-Tag', 'Name-Tag'), ('Oven-Rack Push-Pull', 'Oven-Rack Push-Pull'), ('Trophy', 'Trophy'), ('Cutting Board', 'Cutting Board'), ('Quick Conversion Stick', 'Quick Conversion Stick'), ('Generated_SKU', 'Generated_SKU'), ('Wall Deco/Plaque', 'Wall Deco/Plaque'), ('Wall Deco/Name Letters', 'Wall Deco/Name Letters'), ('Sign', 'Sign'), ('Python Code', 'Python Code'), ('HTML CODE', 'HTML CODE'), ('Spread Sheet', 'Spread Sheet'), ('SVG FILE', 'SVG FILE'), ('Product-Plan/Product-Demo', 'Product-Plan/Product-Demo'), ('W-2', 'W-2'), ('1099-INT', '1099-INT'), ('1099-C', '1099-C'), ('General Document', 'General Document'), ('Coaster', 'Coaster'), ('Retail Product (Generic)', 'Retail Product (Generic)'), ('Retail Product(Safeway)', 'Retail Product(Safeway)'), ('Other - See Comments', 'Other - See Comments')]
+		size=[('Size', 'Size'), ('Other', 'Other'), ('Other-Check_Diameter', 'Other-Check_Diameter'), ('Box Dimensions (See Comments)', 'Box Dimensions (See Comments)'), ('2x2', '2x2'), ('3x3', '3x3'), ('3x5', '3x5'), ('3.5x5', '3.5x5'), ('4x4', '4x4'), ('4x6', '4x6'), ('4x10', '4x10'), ('5x5', '5x5'), ('5x7', '5x7'), ('6x6', '6x6'), ('8x6', '8x6'), ('7x7', '7x7'), ('8x8', '8x8'), ('8x10', '8x10'), ('8.5x10', '8.5x10'), ('8x12', '8x12'), ('9x12', '9x12'), ('10x13', '10x13'), ('10x12', '10x12'), ('11x14', '11x14'), ('12x12', '12x12')]
 		can_hold_glass=[('Can Holz Glass', 'Can Holz Glass'), ('yes', 'yes'), ('no', 'no'), ('Other', 'Other')]
 		has_glass=[('Has Glass', 'Has Glass'), ('yes', 'yes'), ('no', 'no'), ('plexiglass', 'plexiglass'), ('lexan', 'lexan'), ('acrylic', 'acrylic'), ('Other', 'Other')]
 		can_hold_canvas=[('Can Hold Canvas', 'Can Hold Canvas'), ('yes', 'yes'), ('no', 'no'), ('Other', 'Other')]
@@ -1135,9 +1135,183 @@ class PollingWorker(QRunnable):
         self.signals.result.emit('')
 class Window(QMainWindow,QWidget):
     #caluculate mass start
-    mass_units=['pound','ounce','ton','gram','milligram','centigram','kilogram','metric ton',]
+    mass_units=['Units Of Mass','pound','ounce','ton','gram','milligram','centigram','kilogram','metric ton',]
     def setup_calculate_mass(self):
-        pass
+        self.window.mass_to_value.display(0.0)
+        self.window.mass_from_value.setValue(0.0)
+        self.window.mass_to_value_unit.setCurrentIndex(0)
+        self.window.mass_from_value_unit.setCurrentIndex(0)
+        if self.window.mass_from_value_unit.count() < len(self.mass_units):
+            for i in self.mass_units:
+                self.window.mass_from_value_unit.addItem(i)
+                self.window.mass_to_value_unit.addItem(i)
+        self.window.mass_clear.clicked.connect(self.setup_calculate_mass)
+        self.window.mass_from_value.valueChanged.connect(self.calculate_mass)
+    def calculate_mass(self,old):
+        text1=self.window.mass_from_value_unit.currentText()
+        text2=self.window.mass_to_value_unit.currentText()
+        def invalid_conversion():
+            print("invalid conversion")
+            QMessageBox.warning(self,"Invalid Unit Selected","Please select a valid unit so a valid value can be provided!")
+        if text1 == text2:
+            if text1 == 'Units Of Mass' and text2 == 'Units Of Mass':
+                invalid_conversion()
+            else:
+                self.window.mass_to_value.display(self.window.mass_from_value.value())
+        elif text1 == 'Units Of Mass' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'pound':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'ounce':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'ton':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'gram':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'milligram':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'centigram':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'kilogram':
+            invalid_conversion()
+        elif text1 == 'Units Of Mass' and text2 == 'metric ton':
+            invalid_conversion()
+        elif text1 == 'pound' and text2 == 'Units Of Mass':
+            invalid_conversion()
+
+        elif text1 == 'pound' and text2 == 'ounce':
+            pass
+        elif text1 == 'pound' and text2 == 'ton':
+            pass
+        elif text1 == 'pound' and text2 == 'gram':
+            pass
+        elif text1 == 'pound' and text2 == 'milligram':
+            pass
+        elif text1 == 'pound' and text2 == 'centigram':
+            pass
+        elif text1 == 'pound' and text2 == 'kilogram':
+            pass
+        elif text1 == 'pound' and text2 == 'metric ton':
+            pass
+        elif text1 == 'ounce' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'ounce' and text2 == 'pound':
+            pass
+
+        elif text1 == 'ounce' and text2 == 'ton':
+            pass
+        elif text1 == 'ounce' and text2 == 'gram':
+            pass
+        elif text1 == 'ounce' and text2 == 'milligram':
+            pass
+        elif text1 == 'ounce' and text2 == 'centigram':
+            pass
+        elif text1 == 'ounce' and text2 == 'kilogram':
+            pass
+        elif text1 == 'ounce' and text2 == 'metric ton':
+            pass
+        elif text1 == 'ton' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'ton' and text2 == 'pound':
+            pass
+        elif text1 == 'ton' and text2 == 'ounce':
+            pass
+
+        elif text1 == 'ton' and text2 == 'gram':
+            pass
+        elif text1 == 'ton' and text2 == 'milligram':
+            pass
+        elif text1 == 'ton' and text2 == 'centigram':
+            pass
+        elif text1 == 'ton' and text2 == 'kilogram':
+            pass
+        elif text1 == 'ton' and text2 == 'metric ton':
+            pass
+        elif text1 == 'gram' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'gram' and text2 == 'pound':
+            pass
+        elif text1 == 'gram' and text2 == 'ounce':
+            pass
+        elif text1 == 'gram' and text2 == 'ton':
+            pass
+
+        elif text1 == 'gram' and text2 == 'milligram':
+            pass
+        elif text1 == 'gram' and text2 == 'centigram':
+            pass
+        elif text1 == 'gram' and text2 == 'kilogram':
+            pass
+        elif text1 == 'gram' and text2 == 'metric ton':
+            pass
+        elif text1 == 'milligram' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'milligram' and text2 == 'pound':
+            pass
+        elif text1 == 'milligram' and text2 == 'ounce':
+            pass
+        elif text1 == 'milligram' and text2 == 'ton':
+            pass
+        elif text1 == 'milligram' and text2 == 'gram':
+            pass
+
+        elif text1 == 'milligram' and text2 == 'centigram':
+            pass
+        elif text1 == 'milligram' and text2 == 'kilogram':
+            pass
+        elif text1 == 'milligram' and text2 == 'metric ton':
+            pass
+        elif text1 == 'centigram' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'centigram' and text2 == 'pound':
+            pass
+        elif text1 == 'centigram' and text2 == 'ounce':
+            pass
+        elif text1 == 'centigram' and text2 == 'ton':
+            pass
+        elif text1 == 'centigram' and text2 == 'gram':
+            pass
+        elif text1 == 'centigram' and text2 == 'milligram':
+            pass
+
+        elif text1 == 'centigram' and text2 == 'kilogram':
+            pass
+        elif text1 == 'centigram' and text2 == 'metric ton':
+            pass
+        elif text1 == 'kilogram' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'kilogram' and text2 == 'pound':
+            pass
+        elif text1 == 'kilogram' and text2 == 'ounce':
+            pass
+        elif text1 == 'kilogram' and text2 == 'ton':
+            pass
+        elif text1 == 'kilogram' and text2 == 'gram':
+            pass
+        elif text1 == 'kilogram' and text2 == 'milligram':
+            pass
+        elif text1 == 'kilogram' and text2 == 'centigram':
+            pass
+
+        elif text1 == 'kilogram' and text2 == 'metric ton':
+            pass
+        elif text1 == 'metric ton' and text2 == 'Units Of Mass':
+            invalid_conversion()
+        elif text1 == 'metric ton' and text2 == 'pound':
+            pass
+        elif text1 == 'metric ton' and text2 == 'ounce':
+            pass
+        elif text1 == 'metric ton' and text2 == 'ton':
+            pass
+        elif text1 == 'metric ton' and text2 == 'gram':
+            pass
+        elif text1 == 'metric ton' and text2 == 'milligram':
+            pass
+        elif text1 == 'metric ton' and text2 == 'centigram':
+            pass
+        elif text1 == 'metric ton' and text2 == 'kilogram':
+            pass
+
 
     #calculate mass end
     #calculate length start
