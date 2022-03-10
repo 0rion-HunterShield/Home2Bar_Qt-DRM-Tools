@@ -1637,6 +1637,7 @@ class Window(QMainWindow,QWidget):
                 padding: 5px;
                 background-color: navajowhite;
                 width: inherit;
+                justify-content: center;
             }
 
             img {
@@ -1680,10 +1681,9 @@ class Window(QMainWindow,QWidget):
             width: inherit;
             }
             th,td {
-                border: 1px solid goldenrod;
-                padding: 4px;
                 box-shadow: 0px 0px 5px gray;
             }
+            td {background-color:silver;}
 
             th {
                 background-color: lightyellow;
@@ -3593,6 +3593,7 @@ align:center;
         self.file_corner=json.loads(content.decode('utf-8'))
     def generate_invoice_html2(self):
         invoice='''
+                {head}
                 <p class="page" style="page-break-after: always;">
                     <style>
                         {style}
@@ -3632,7 +3633,11 @@ align:center;
             html+='''
                             <tr>
                                 <th>{key}</th>
-                                <td>{value}</td>
+                                <td>
+                                    <p class="page" style="page-break-before: always;">
+                                        {value}
+                                    </p>
+                                </td>
                             </tr>
             '''.format(key=' '.join([x[0].upper()+x[1:] for x in i.replace("_"," ").split(" ")]),value=self.exportable[i],)
         style='''
@@ -3654,6 +3659,15 @@ align:center;
             data_1=self.file_front.get('file'),
             data_2=self.file_corner.get('file'),
             data_3=self.file_rear.get('file'),
+            head='''
+            <head>
+                <style>
+                    @media print {
+                        tr.page-break  { display: block; page-break-before: always; }
+                    }
+                </style>
+            </head>
+'''
             )
         return inv
 
