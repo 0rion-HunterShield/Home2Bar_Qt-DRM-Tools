@@ -1323,8 +1323,6 @@ class Window(QMainWindow,QWidget):
             self.conversion_mass(100000048)
         elif text1 == 'metric ton' and text2 == 'kilogram':
             self.conversion_mass(1000)
-
-
     #calculate mass end
     #calculate length start
     length_units=["inch","foot","yard","mile","millimeters","centimeters","decimeters","hectometers","kilometers"]
@@ -3842,7 +3840,7 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA16.31'
+    code_version='HCA16.4'
     def update_info(self):
         response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         print(response)
