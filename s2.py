@@ -1500,6 +1500,7 @@ class Window(QMainWindow,QWidget):
             elif text1 == 'kilometers' and text2 == 'hectometers':
                 self.converter(1000)
         else:
+            print(text1,text2)
             print("need a valid unit")
             if auto ==False:
                 QMessageBox.warning(self,"Invalid Unit","Need a valid unit. Not 'Unit of Length'")
