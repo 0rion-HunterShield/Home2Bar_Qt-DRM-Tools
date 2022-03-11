@@ -1350,159 +1350,155 @@ class Window(QMainWindow,QWidget):
         text1=self.window.length_from_value_unit.currentText()
         text2=self.window.length_to_value_unit.currentText()
         #itemAt(self.window.length_from_value_unit.currentIndex()).text()
-        if text1 != self.length_units[0] and text2 != self.length_units[0]:
-            print("calculating",text1,"->",text2)
-            if text1 == text2:
-                #self.window.length_to_value.display(self.window.length_from_value.value())
-                self.converter(1/1)
-            elif text1 == 'inch' and text2 == 'foot':
-                self.converter(1/12)
-            elif text1 == 'inch' and text2 == 'yard':
-                self.converter(1/36)
-            elif text1 == 'inch' and text2 == 'mile':
-                self.converter(1/63360)
-            elif text1 == 'inch' and text2 == 'millimeters':
-                self.converter(25.4)
-            elif text1 == 'inch' and text2 == 'centimeters':
-                self.converter(2.54)
-            elif text1 == 'inch' and text2 == 'decimeters':
-                self.converter(0.254)
-            elif text1 == 'inch' and text2 == 'hectometers':
-                self.converter(0.000254)
-            elif text1 == 'inch' and text2 == 'kilometers':
-                self.converter(2.54e-5)
-            elif text1 == 'foot' and text2 == 'inch':
-                self.converter(12/1)
-            elif text1 == 'foot' and text2 == 'yard':
-                self.converter(1/3)
-            elif text1 == 'foot' and text2 == 'mile':
-                self.converter(1/5280)
-            elif text1 == 'foot' and text2 == 'millimeters':
-                self.converter(304.8)
-            elif text1 == 'foot' and text2 == 'centimeters':
-                self.converter(30.48)
-            elif text1 == 'foot' and text2 == 'decimeters':
-                self.converter(3.048)
-            elif text1 == 'foot' and text2 == 'hectometers':
-                self.converter(0.003048)
-            elif text1 == 'foot' and text2 == 'kilometers':
-                self.converter(0.0003048)
-            elif text1 == 'yard' and text2 == 'inch':
-                self.converter(36)
-            elif text1 == 'yard' and text2 == 'foot':
-                self.converter(3)
-            elif text1 == 'yard' and text2 == 'mile':
-                self.converter(0.000568182)
-            elif text1 == 'yard' and text2 == 'millimeters':
-                self.converter(914.400292608)
-            elif text1 == 'yard' and text2 == 'centimeters':
-                self.converter(91.4400292608)
-            elif text1 == 'yard' and text2 == 'decimeters':
-                self.converter(9.14400292608)
-            elif text1 == 'yard' and text2 == 'hectometers':
-                self.converter(0.009144)
-            elif text1 == 'yard' and text2 == 'kilometers':
-                self.converter(0.0009144)
-            elif text1 == 'mile' and text2 == 'inch':
-                self.converter(63360/1)
-            elif text1 == 'mile' and text2 == 'foot':
-                self.converter(5280/1)
-            elif text1 == 'mile' and text2 == 'yard':
-                self.converter(63360/36)
-            elif text1 == 'mile' and text2 == 'millimeters':
-                self.converter(1.609e+6)
-            elif text1 == 'mile' and text2 == 'centimeters':
-                self.converter(160899.999998412)
-            elif text1 == 'mile' and text2 == 'decimeters':
-                self.converter(16093.4)
-            elif text1 == 'mile' and text2 == 'hectometers':
-                self.converter(16.0934)
-            elif text1 == 'mile' and text2 == 'kilometers':
-                self.converter(1.60933999997549)
-            elif text1 == 'millimeters' and text2 == 'inch':
-                self.converter(0.0393701)
-            elif text1 == 'millimeters' and text2 == 'foot':
-                self.converter(0.003280841666667)
-            elif text1 == 'millimeters' and text2 == 'yard':
-                self.converter(0.0010936138888889999563)
-            elif text1 == 'millimeters' and text2 == 'mile':
-                self.converter(6.213715277778408823e-7)
-            elif text1 == 'millimeters' and text2 == 'centimeters':
-                self.converter(0.1)
-            elif text1 == 'millimeters' and text2 == 'decimeters':
-                self.converter(0.01)
-            elif text1 == 'millimeters' and text2 == 'hectometers':
-                self.converter(1e-5)
-            elif text1 == 'millimeters' and text2 == 'kilometers':
-                self.converter(1e-6)
-            elif text1 == 'centimeters' and text2 == 'inch':
-                self.converter(0.393701)
-            elif text1 == 'centimeters' and text2 == 'foot':
-                self.converter(0.03280841666667)
-            elif text1 == 'centimeters' and text2 == 'yard':
-                self.converter(0.010936138888889999563)
-            elif text1 == 'centimeters' and text2 == 'mile':
-                self.converter(6.213715277778408611e-6)
-            elif text1 == 'centimeters' and text2 == 'millimeters':
-                self.converter(10)
-            elif text1 == 'centimeters' and text2 == 'decimeters':
-                self.converter(0.1)
-            elif text1 == 'centimeters' and text2 == 'hectometers':
-                self.converter(1e-4)
-            elif text1 == 'centimeters' and text2 == 'kilometers':
-                self.converter(1e-5)
-            elif text1 == 'decimeters' and text2 == 'inch':
-                self.converter(3.93701)
-            elif text1 == 'decimeters' and text2 == 'foot':
-                self.converter(0.328084)
-            elif text1 == 'decimeters' and text2 == 'yard':
-                self.converter(0.109361)
-            elif text1 == 'decimeters' and text2 == 'mile':
-                self.converter(6.21371e-5)
-            elif text1 == 'decimeters' and text2 == 'millimeters':
-                self.converter(100)
-            elif text1 == 'decimeters' and text2 == 'centimeters':
-                self.converter(10)
-            elif text1 == 'decimeters' and text2 == 'hectometers':
-                self.converter(0.001)
-            elif text1 == 'decimeters' and text2 == 'kilometers':
-                self.converter(1e-4)
-            elif text1 == 'hectometers' and text2 == 'inch':
-                self.converter(3937.01)
-            elif text1 == 'hectometers' and text2 == 'foot':
-                self.converter(328.084)
-            elif text1 == 'hectometers' and text2 == 'yard':
-                self.converter(109.361)
-            elif text1 == 'hectometers' and text2 == 'mile':
-                self.converter(0.0621371)
-            elif text1 == 'hectometers' and text2 == 'millimeters':
-                self.converter(100000)
-            elif text1 == 'hectometers' and text2 == 'centimeters':
-                self.converter(10000)
-            elif text1 == 'hectometers' and text2 == 'decimeters':
-                self.converter(1000)
-            elif text1 == 'hectometers' and text2 == 'kilometers':
-                self.converter(0.1)
-            elif text1 == 'kilometers' and text2 == 'inch':
-                self.converter(39370.1)
-            elif text1 == 'kilometers' and text2 == 'foot':
-                self.converter(3280.84)
-            elif text1 == 'kilometers' and text2 == 'yard':
-                self.converter(1093.61)
-            elif text1 == 'kilometers' and text2 == 'mile':
-                self.converter(0.621371)
-            elif text1 == 'kilometers' and text2 == 'millimeters':
-                self.converter(1000000)
-            elif text1 == 'kilometers' and text2 == 'centimeters':
-                self.converter(100000)
-            elif text1 == 'kilometers' and text2 == 'decimeters':
-                self.converter(10000)
-            elif text1 == 'kilometers' and text2 == 'hectometers':
-                self.converter(1000)
-        else:
-            print(text1,text2)
-            print("need a valid unit")
-            if auto ==False:
+        print("calculating",text1,"->",text2)
+        if text1 == text2:
+            #self.window.length_to_value.display(self.window.length_from_value.value())
+            self.converter(1/1)
+        elif text1 == 'inch' and text2 == 'foot':
+            self.converter(1/12)
+        elif text1 == 'inch' and text2 == 'yard':
+            self.converter(1/36)
+        elif text1 == 'inch' and text2 == 'mile':
+            self.converter(1/63360)
+        elif text1 == 'inch' and text2 == 'millimeters':
+            self.converter(25.4)
+        elif text1 == 'inch' and text2 == 'centimeters':
+            self.converter(2.54)
+        elif text1 == 'inch' and text2 == 'decimeters':
+            self.converter(0.254)
+        elif text1 == 'inch' and text2 == 'hectometers':
+            self.converter(0.000254)
+        elif text1 == 'inch' and text2 == 'kilometers':
+            self.converter(2.54e-5)
+        elif text1 == 'foot' and text2 == 'inch':
+            self.converter(12/1)
+        elif text1 == 'foot' and text2 == 'yard':
+            self.converter(1/3)
+        elif text1 == 'foot' and text2 == 'mile':
+            self.converter(1/5280)
+        elif text1 == 'foot' and text2 == 'millimeters':
+            self.converter(304.8)
+        elif text1 == 'foot' and text2 == 'centimeters':
+            self.converter(30.48)
+        elif text1 == 'foot' and text2 == 'decimeters':
+            self.converter(3.048)
+        elif text1 == 'foot' and text2 == 'hectometers':
+            self.converter(0.003048)
+        elif text1 == 'foot' and text2 == 'kilometers':
+            self.converter(0.0003048)
+        elif text1 == 'yard' and text2 == 'inch':
+            self.converter(36)
+        elif text1 == 'yard' and text2 == 'foot':
+            self.converter(3)
+        elif text1 == 'yard' and text2 == 'mile':
+            self.converter(0.000568182)
+        elif text1 == 'yard' and text2 == 'millimeters':
+            self.converter(914.400292608)
+        elif text1 == 'yard' and text2 == 'centimeters':
+            self.converter(91.4400292608)
+        elif text1 == 'yard' and text2 == 'decimeters':
+            self.converter(9.14400292608)
+        elif text1 == 'yard' and text2 == 'hectometers':
+            self.converter(0.009144)
+        elif text1 == 'yard' and text2 == 'kilometers':
+            self.converter(0.0009144)
+        elif text1 == 'mile' and text2 == 'inch':
+            self.converter(63360/1)
+        elif text1 == 'mile' and text2 == 'foot':
+            self.converter(5280/1)
+        elif text1 == 'mile' and text2 == 'yard':
+            self.converter(63360/36)
+        elif text1 == 'mile' and text2 == 'millimeters':
+            self.converter(1.609e+6)
+        elif text1 == 'mile' and text2 == 'centimeters':
+            self.converter(160899.999998412)
+        elif text1 == 'mile' and text2 == 'decimeters':
+            self.converter(16093.4)
+        elif text1 == 'mile' and text2 == 'hectometers':
+            self.converter(16.0934)
+        elif text1 == 'mile' and text2 == 'kilometers':
+            self.converter(1.60933999997549)
+        elif text1 == 'millimeters' and text2 == 'inch':
+            self.converter(0.0393701)
+        elif text1 == 'millimeters' and text2 == 'foot':
+            self.converter(0.003280841666667)
+        elif text1 == 'millimeters' and text2 == 'yard':
+            self.converter(0.0010936138888889999563)
+        elif text1 == 'millimeters' and text2 == 'mile':
+            self.converter(6.213715277778408823e-7)
+        elif text1 == 'millimeters' and text2 == 'centimeters':
+            self.converter(0.1)
+        elif text1 == 'millimeters' and text2 == 'decimeters':
+            self.converter(0.01)
+        elif text1 == 'millimeters' and text2 == 'hectometers':
+            self.converter(1e-5)
+        elif text1 == 'millimeters' and text2 == 'kilometers':
+            self.converter(1e-6)
+        elif text1 == 'centimeters' and text2 == 'inch':
+            self.converter(0.393701)
+        elif text1 == 'centimeters' and text2 == 'foot':
+            self.converter(0.03280841666667)
+        elif text1 == 'centimeters' and text2 == 'yard':
+            self.converter(0.010936138888889999563)
+        elif text1 == 'centimeters' and text2 == 'mile':
+            self.converter(6.213715277778408611e-6)
+        elif text1 == 'centimeters' and text2 == 'millimeters':
+            self.converter(10)
+        elif text1 == 'centimeters' and text2 == 'decimeters':
+            self.converter(0.1)
+        elif text1 == 'centimeters' and text2 == 'hectometers':
+            self.converter(1e-4)
+        elif text1 == 'centimeters' and text2 == 'kilometers':
+            self.converter(1e-5)
+        elif text1 == 'decimeters' and text2 == 'inch':
+            self.converter(3.93701)
+        elif text1 == 'decimeters' and text2 == 'foot':
+            self.converter(0.328084)
+        elif text1 == 'decimeters' and text2 == 'yard':
+            self.converter(0.109361)
+        elif text1 == 'decimeters' and text2 == 'mile':
+            self.converter(6.21371e-5)
+        elif text1 == 'decimeters' and text2 == 'millimeters':
+            self.converter(100)
+        elif text1 == 'decimeters' and text2 == 'centimeters':
+            self.converter(10)
+        elif text1 == 'decimeters' and text2 == 'hectometers':
+            self.converter(0.001)
+        elif text1 == 'decimeters' and text2 == 'kilometers':
+            self.converter(1e-4)
+        elif text1 == 'hectometers' and text2 == 'inch':
+            self.converter(3937.01)
+        elif text1 == 'hectometers' and text2 == 'foot':
+            self.converter(328.084)
+        elif text1 == 'hectometers' and text2 == 'yard':
+            self.converter(109.361)
+        elif text1 == 'hectometers' and text2 == 'mile':
+            self.converter(0.0621371)
+        elif text1 == 'hectometers' and text2 == 'millimeters':
+            self.converter(100000)
+        elif text1 == 'hectometers' and text2 == 'centimeters':
+            self.converter(10000)
+        elif text1 == 'hectometers' and text2 == 'decimeters':
+            self.converter(1000)
+        elif text1 == 'hectometers' and text2 == 'kilometers':
+            self.converter(0.1)
+        elif text1 == 'kilometers' and text2 == 'inch':
+            self.converter(39370.1)
+        elif text1 == 'kilometers' and text2 == 'foot':
+            self.converter(3280.84)
+        elif text1 == 'kilometers' and text2 == 'yard':
+            self.converter(1093.61)
+        elif text1 == 'kilometers' and text2 == 'mile':
+            self.converter(0.621371)
+        elif text1 == 'kilometers' and text2 == 'millimeters':
+            self.converter(1000000)
+        elif text1 == 'kilometers' and text2 == 'centimeters':
+            self.converter(100000)
+        elif text1 == 'kilometers' and text2 == 'decimeters':
+            self.converter(10000)
+        elif text1 == 'kilometers' and text2 == 'hectometers':
+            self.converter(1000)
+        if auto ==False:
                 QMessageBox.warning(self,"Invalid Unit","Need a valid unit. Not 'Unit of Length'")
     #calculate length end
     #calculate tab shc start
