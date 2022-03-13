@@ -3906,9 +3906,9 @@ align:center;
         self.window.ocr_imageView.fitInView(QRectF(0,0,30,30),Qt.AspectRatioMode.KeepAspectRatio)
         self.ocr_scene.addItem(self.ocr_pix)
     update_address='https://github.com/0rion-HunterShield/MDI180-QT6'
-    code_version='HCA16.6'
+    code_version='HCA16.7'
     def update_info(self):
-        response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
+        response=requests.get('{server}/holzcraftsframes/updates/'.format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},verify=False)
         print(response)
         if response.status_code == 200:
             print(response.json())
