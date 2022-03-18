@@ -1150,6 +1150,7 @@ class Window(QMainWindow,QWidget):
         self.window.qsa_url.textChanged.connect(self.window.qsa_current_url.setText)
         self.window.qsa_add_preset.clicked.connect(self.qsa_add_url)
         self.window.qsa_presets.currentTextChanged.connect(self.url_changed)
+        self.get_presets()
     def url_changed(self):
         sender=self.sender()
         self.window.qsa_url.setText(sender.currentText())
@@ -1157,7 +1158,8 @@ class Window(QMainWindow,QWidget):
         response=requests.get("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         if response.status_code == 200:
             JSON=response.json()
-            
+            for i in JSON:
+                print(i)
     def qsa_add_url(self):
         response=requests.post("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json=dict(mode='add',url=self.window.qsa_url.text()))
         self.window.statusBar().showMessage(str(response))
