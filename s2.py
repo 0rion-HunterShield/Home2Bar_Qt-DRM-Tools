@@ -1155,13 +1155,13 @@ class Window(QMainWindow,QWidget):
         sender=self.sender()
         self.window.qsa_url.setText(sender.currentText())
     def get_presets(self):
-        response=requests.get("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
+        response=requests.get("{server}/holzcraftsframes/qsa/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
         if response.status_code == 200:
             JSON=response.json()
             for i in JSON:
                 print(i)
     def qsa_add_url(self):
-        response=requests.post("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json=dict(mode='add',url=self.window.qsa_url.text()))
+        response=requests.post("{server}/holzcraftsframes/qsa/".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json=dict(mode='add',url=self.window.qsa_url.text()))
         self.window.statusBar().showMessage(str(response))
         QMessageBox.information(self,str(response),str(response))
 
