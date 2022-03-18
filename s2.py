@@ -1148,6 +1148,21 @@ class Window(QMainWindow,QWidget):
         self.window.qsa_clear_history.clicked.connect(self.qsa_clear)
         self.window.qsa_current_url.setText(self.window.qsa_url.text())
         self.window.qsa_url.textChanged.connect(self.window.qsa_current_url.setText)
+        self.window.qsa_add_preset.clicked.connect(self.qsa_add_url)
+        self.window.qsa_presets.currentTextChanged.connect(self.url_changed)
+    def url_changed(self):
+        sender=self.sender()
+        self.window.qsa_url.setText(sender.currentText())
+    def get_presets(self):
+        response=requests.get("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())})
+        if response.status_code == 200:
+            JSON=response.json()
+            
+    def qsa_add_url(self):
+        response=requests.post("{server}/holzcraftsframes/qsa".format(server=self.window.server.text()),headers={'Authorization':'Token {}'.format(self.window.token.text())},json=dict(mode='add',url=self.window.qsa_url.text()))
+        self.window.statusBar().showMessage(str(response))
+        QMessageBox.information(self,str(response),str(response))
+
     def qsa_clear(self):
         self.window.qsa_general_quotes.history().clear()
         self.window.qsa_back.setEnabled(self.window.qsa_general_quotes.history().canGoBack())
